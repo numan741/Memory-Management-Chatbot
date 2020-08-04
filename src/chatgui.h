@@ -2,6 +2,7 @@
 #define CHATGUI_H_
 
 #include <wx/wx.h>
+#include <memory>
 
 class ChatLogic; // forward declaration
 
@@ -16,8 +17,10 @@ private:
     //// STUDENT CODE
     ////
 
-    ChatLogic *_chatLogic;
-
+    //ChatLogic *_chatLogic;
+    // FOr to make ChatLogic exclusive resource, we will use the smart pointer names as unique pointer.
+    // As name illustrate that with this resource canot be used by other pointer.
+    std::unique_ptr<ChatLogic> _chatLogic;
     ////
     //// EOF STUDENT CODE
 
@@ -27,7 +30,9 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
-    ChatLogic *GetChatLogicHandle() { return _chatLogic; }
+    //To get the memory address of the resource on the heap we will use ... 
+    //member function .get() of object _chatLogic that is on the stack 
+    ChatLogic* GetChatLogicHandle() { return _chatLogic.get(); }
 
     // events
     void paintEvent(wxPaintEvent &evt);
